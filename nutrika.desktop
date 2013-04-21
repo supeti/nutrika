@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Nutrika
+GenericName=Nutrient calculator and intake analyzer
+Comment=Displays nutrient content compared to DRI
+Exec=nutrika
+Icon=nutrika
+Terminal=false
+Type=Application
+Categories=Education;Science;MedicalSoftware;
+

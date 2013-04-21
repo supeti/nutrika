@@ -1,0 +1,54 @@
+Name: nutrika
+Version: 0.2.1
+Release: 1.fc14
+Summary: Nutrient calculator
+
+Group: Applications/Engineering
+License: GPLv3+
+URL: http://nutrika.sourceforge.net/
+Source: http://sourceforge.net/projects/nutrika/files/%{name}-%{version}.tar.bz2
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires: sqlite-devel
+BuildRequires: gtk2-devel
+BuildRequires: gettext
+BuildRequires: desktop-file-utils
+
+%description
+Shows detailed nutrition content (per 100g and DRI percentages) of various 
+food items. Values of food items are also summed up for custom made meals, 
+and for a period according to a schedule.
+
+%prep
+%setup -q
+
+%build
+%configure
+
+make %{?_smp_mflags}
+
+%install
+rm -rf %{buildroot}
+make install DESTDIR=%{buildroot}
+%find_lang %{name}
+desktop-file-validate %{buildroot}/%{_datadir}/applications/nutrika.desktop
+
+%clean
+rm -rf %{buildroot}
+
+%files -f %{name}.lang
+%defattr(-,root,root,-)
+%doc README ChangeLog AUTHORS
+%{_bindir}/*
+%{_datadir}/applications/nutrika.desktop
+%{_datadir}/nutrika
+%{_datadir}/pixmaps/nutrika.png
+
+%changelog
+* Fri Mar 04 2011 Peter Sulyok <sulyokpeti@gmail.com> 0.2.1-1
+- bugfix: weight did not change before setting weight unit
+* Mon Feb 14 2011 Peter Sulyok <sulyokpeti@gmail.com> 0.2-1
+- I18N, added lb and oz units, icon
+* Mon Feb 14 2011 Peter Sulyok <sulyokpeti@gmail.com>
+- New release 0.1
+

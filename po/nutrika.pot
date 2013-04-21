@@ -1,0 +1,239 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-06 14:12+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/gui.c:243
+#, c-format
+msgid "Schedule from %s to %s"
+msgstr ""
+
+#: src/gui.c:340
+msgid "month"
+msgstr ""
+
+#: src/gui.c:342 src/gui.c:744
+msgid "year"
+msgstr ""
+
+#: src/gui.c:412
+msgid "Value"
+msgstr ""
+
+#: src/gui.c:414
+msgid "Unit"
+msgstr ""
+
+#: src/gui.c:416
+msgid "Description"
+msgstr ""
+
+#: src/gui.c:418
+msgid "EAR"
+msgstr ""
+
+#: src/gui.c:420
+msgid "RDA"
+msgstr ""
+
+#: src/gui.c:422
+msgid "AI"
+msgstr ""
+
+#: src/gui.c:424
+msgid "UL"
+msgstr ""
+
+#: src/gui.c:441
+msgid "Group:"
+msgstr ""
+
+#: src/gui.c:453 src/gui.c:512
+msgid "Name like:"
+msgstr ""
+
+#: src/gui.c:463
+msgid "Item:"
+msgstr ""
+
+#: src/gui.c:498
+msgid "New meal:"
+msgstr ""
+
+#: src/gui.c:503 src/gui.c:662
+msgid "Add meal"
+msgstr ""
+
+#: src/gui.c:517
+msgid "Select meal"
+msgstr ""
+
+#: src/gui.c:525
+msgid "Delete meal"
+msgstr ""
+
+#: src/gui.c:534
+msgid "Name:"
+msgstr ""
+
+#: src/gui.c:549
+msgid "Add food item"
+msgstr ""
+
+#: src/gui.c:552
+msgid "Remove food item"
+msgstr ""
+
+#: src/gui.c:569
+msgid "Weight [oz]"
+msgstr ""
+
+#: src/gui.c:576
+msgid "Weight [g]"
+msgstr ""
+
+#: src/gui.c:580
+msgid "NDBNo"
+msgstr ""
+
+#: src/gui.c:582
+msgid "Desc"
+msgstr ""
+
+#: src/gui.c:619
+msgid "Schedule timeframe has not been set yet."
+msgstr ""
+
+#: src/gui.c:631
+msgid "Time:"
+msgstr ""
+
+#: src/gui.c:644
+msgid "Schedule timeframe"
+msgstr ""
+
+#: src/gui.c:646
+msgid "Begin"
+msgstr ""
+
+#: src/gui.c:651
+msgid "End"
+msgstr ""
+
+#: src/gui.c:656
+msgid "Set period"
+msgstr ""
+
+#: src/gui.c:665
+msgid "Remove meal"
+msgstr ""
+
+#: src/gui.c:677
+msgid "Date&Time"
+msgstr ""
+
+#: src/gui.c:691
+msgid "Quantity"
+msgstr ""
+
+#: src/gui.c:696 src/gui.c:777
+msgid "Meal"
+msgstr ""
+
+#: src/gui.c:717
+msgid "Infants"
+msgstr ""
+
+#: src/gui.c:717
+msgid "Children"
+msgstr ""
+
+#: src/gui.c:717
+msgid "Males"
+msgstr ""
+
+#: src/gui.c:717
+msgid "Females"
+msgstr ""
+
+#: src/gui.c:717
+msgid "Pregnancy"
+msgstr ""
+
+#: src/gui.c:717
+msgid "Lactation"
+msgstr ""
+
+#: src/gui.c:718
+msgid "Kg"
+msgstr ""
+
+#: src/gui.c:718
+msgid "lb"
+msgstr ""
+
+#: src/gui.c:724
+msgid "Life Stage Group:"
+msgstr ""
+
+#: src/gui.c:737
+msgid "Age:"
+msgstr ""
+
+#: src/gui.c:748
+msgid "Weight:"
+msgstr ""
+
+#: src/gui.c:776
+msgid "Food"
+msgstr ""
+
+#: src/gui.c:778
+msgid "Schedule"
+msgstr ""
+
+#: src/gui.c:779
+msgid "Eater"
+msgstr ""
+
+#: src/gui.c:794
+msgid "Nutrika 0.2.1"
+msgstr ""
+
+#: src/database.c:190
+msgid "Proximates"
+msgstr ""
+
+#: src/database.c:190
+msgid "Minerals"
+msgstr ""
+
+#: src/database.c:190
+msgid "Vitamines"
+msgstr ""
+
+#: src/database.c:190
+msgid "Lipids"
+msgstr ""
+
+#: src/database.c:190
+msgid "Amino acids"
+msgstr ""
+
+#: src/database.c:190
+msgid "Others"
+msgstr ""

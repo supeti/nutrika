@@ -1,0 +1,13 @@
+2011-03-04  Peter Sulyok  <sulyokpeti@gmail.com>
+
+	* gui.c: Fixed eater's weight unit initialization.
+
+2011-02-23  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Add config.rpath.
+
+2011-02-23  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): New variable.
+

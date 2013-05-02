@@ -23,13 +23,14 @@ enum
 enum
 { FOOD_NDBNO, FOOD_LONG_DESC, FOOD_NCOL };
 enum
-{ NUTR_NO, NUTR_VAL, NUTR_UNITS, NUTR_DESC, NUTR_SRORD, NUTR_EAR, NUTR_RDA, NUTR_AI, NUTR_UL, NUTR_NCOL };
+{ NUTR_NO, NUTR_VAL, NUTR_UNITS, NUTR_DESC, NUTR_SRORD, NUTR_EAR, NUTR_RDA, NUTR_AI, NUTR_UL, NUTR_PD, NUTR_NCOL };
 enum
-{ MEAL_ID, MEAL_NAME, MEAL_NCOL };
+{ PRODUCT_ID, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_NCOL };
 enum
 { ING_NDBNO, ING_DESC, ING_AMOUNT, ING_AMOUNT_OZ, ING_NCOL };
 enum
-{ SCH_DT, SCH_MEAL_ID, SCH_MEAL_NAME, SCH_QUANTITY, SCH_NCOL };
+{ PLN_PRODUCT_ID, PLN_PRODUCT_NAME, PLN_QUANTITY, PLN_NCOL };
+
 
 void db_open ();
 void db_close ();
@@ -38,18 +39,18 @@ GtkListStore *db_foodgroups ();
 GtkListStore *db_foods (const gchar * fdgrp, const gchar * namelike);
 GtkTreeStore *db_food_content (const gchar * ndbno, const int lsg, const int age, const double weight);
 
-GtkListStore *db_meals (const gchar * namelike);
-void db_insert_meal (const gchar * name);
-void db_delete_meal (const gint id);
-GtkListStore *db_ingredients (const gint meal);
-void db_insert_ingredient (const gint meal, const char *ndbno, const char *amount);
-void db_delete_ingredient (const gint meal, const char *ndbno);
-void db_update_ingredient (const gint meal, const char *ndbno, const char *amount);
-GtkTreeStore *db_meal_content (const gint meal, const int lsg, const int age, const double weight);
+GtkListStore *db_products (const gchar * namelike);
+void db_insert_product (const gchar * name, const double price);
+void db_update_product (const gint product, const double price);
+void db_delete_product (const gint id);
+GtkListStore *db_ingredients (const gint product);
+void db_insert_ingredient (const gint product, const char *ndbno, const char *amount);
+void db_delete_ingredient (const gint product, const char *ndbno);
+void db_update_ingredient (const gint product, const char *ndbno, const char *amount);
+GtkTreeStore *db_product_content (const gint product, const int lsg, const int age, const double weight);
 
-GtkListStore *db_schedule (const gchar * begin, const gchar * end);
-GtkTreeStore *db_schedule_content (const gchar * begin, const gchar * end, const int lsg, const int age,
-				   const double weight, const double timespan);
-void db_schedule_meal (const char *dt, const gint meal, const char *quantity);
-void db_unschedule_meal (const char *dt, const gint meal);
-void db_update_schedule (const char *dt, const gint meal, const char *quantity);
+GtkListStore *db_plan ();
+GtkTreeStore *db_plan_content (const int lsg, const int age, const double weight, const double days);
+void db_plan_product (const gint product, const char *quantity);
+void db_unplan_product (const gint product);
+void db_update_plan (const gint product, const char *quantity);

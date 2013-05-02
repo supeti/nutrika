@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.66])
-AC_INIT([nutrika], [0.2.1])
+AC_INIT([nutrika], [0.3])
 AC_CONFIG_SRCDIR([src/database.c])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE
@@ -11,7 +11,7 @@ AM_INIT_AUTOMAKE
 AC_PROG_CC
 AM_PROG_CC_C_O
 
-PKG_CHECK_MODULES([GTK], [gtk+-2.0])
+PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 PKG_CHECK_MODULES([SQLITE], [sqlite3])
 
 # Checks for header files.

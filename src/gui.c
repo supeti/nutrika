@@ -428,7 +428,7 @@ nutree (GtkWidget ** tree)
   gtk_tree_view_append_column (GTK_TREE_VIEW (*tree),
 			       gtk_tree_view_column_new_with_attributes (_("UL"), cell, "text", NUTR_UL, NULL));
   gtk_tree_view_append_column (GTK_TREE_VIEW (*tree),
-			       gtk_tree_view_column_new_with_attributes (_("PD"), cell, "text", NUTR_PD, NULL));
+			       gtk_tree_view_column_new_with_attributes (_("P/V"), cell, "text", NUTR_PV, NULL));
   gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (*tree), GTK_TREE_VIEW_GRID_LINES_HORIZONTAL);
   gtk_container_add (GTK_CONTAINER (sw), *tree);
   return sw;
@@ -538,7 +538,7 @@ producttab ()
   gui_price_entry = gtk_entry_new ();
   g_signal_connect (gui_price_entry, "activate", G_CALLBACK (product_price_changed), NULL);
   gtk_widget_set_tooltip_text (gui_price_entry,
-			       "Type the cost of the product here. There is only an amount, no currency.");
+			       "Type the cost of the product and press Enter here. There is only an amount, no currency.");
   gtk_grid_attach_next_to (GTK_GRID (grid), gui_price_entry, NULL, GTK_POS_RIGHT, 1, 1);
   label = gtk_label_new (_(", and contains:"));
   gtk_grid_attach_next_to (GTK_GRID (grid), label, NULL, GTK_POS_RIGHT, 1, 1);
@@ -760,7 +760,7 @@ main (int argc, char *argv[])
   db_open ();
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window), _("Nutrika 0.3"));
+  gtk_window_set_title (GTK_WINDOW (window), _("Nutrika 1.0"));
   g_signal_connect (window, "delete-event", G_CALLBACK (quit), NULL);
   g_signal_connect (window, "destroy", G_CALLBACK (quit), NULL);
   gtk_window_set_icon (GTK_WINDOW (window), gdk_pixbuf_new_from_file (NUTRIKA_ICON, &error));

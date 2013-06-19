@@ -197,7 +197,7 @@ GtkTreeStore *
 db_content_query (sqlite3_stmt * ps)
 {
   int j, srord;
-  const unsigned char *nutrno, *nutrval, *units, *desc, *ear, *rda, *ai, *ul, *pd;
+  const unsigned char *nutrno, *nutrval, *units, *desc, *ear, *rda, *ai, *ul, *pv;
   GtkTreeStore *ts;
   GtkTreeIter it1, it2;
 
@@ -216,7 +216,7 @@ db_content_query (sqlite3_stmt * ps)
       rda = sqlite3_column_text (ps, NUTR_RDA);
       ai = sqlite3_column_text (ps, NUTR_AI);
       ul = sqlite3_column_text (ps, NUTR_UL);
-      pd = sqlite3_column_text (ps, NUTR_PD);
+      pv = sqlite3_column_text (ps, NUTR_PV);
       while (nutgrpi[j] <= srord)
 	{
 	  gtk_tree_store_append (ts, &it1, NULL);
@@ -224,7 +224,7 @@ db_content_query (sqlite3_stmt * ps)
 	}
       gtk_tree_store_append (ts, &it2, &it1);
       gtk_tree_store_set (ts, &it2, NUTR_NO, nutrno, NUTR_VAL, nutrval, NUTR_UNITS, units, NUTR_DESC, desc, NUTR_SRORD,
-			  srord, NUTR_EAR, ear, NUTR_RDA, rda, NUTR_AI, ai, NUTR_UL, ul, NUTR_PD, pd, -1);
+			  srord, NUTR_EAR, ear, NUTR_RDA, rda, NUTR_AI, ai, NUTR_UL, ul, NUTR_PV, pv, -1);
     }
   DB_WARN_X (sqlite3_reset (ps));
   return ts;

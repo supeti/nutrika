@@ -447,7 +447,11 @@ foodtab ()
 
   label = gtk_label_new (_("Select food items like "));
   gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1, 1);
+#ifdef __MINGW32__
+  gui_foodnamelike = gtk_entry_new ();
+#else
   gui_foodnamelike = gtk_search_entry_new ();
+#endif
   gtk_widget_set_tooltip_text (gui_foodnamelike,
 			       "Type some characters and press Enter to filter food items. If empty, all food items will appear from the selected food group.");
   gtk_grid_attach_next_to (GTK_GRID (grid), gui_foodnamelike, label, GTK_POS_RIGHT, 1, 1);
@@ -514,7 +518,11 @@ producttab ()
   gtk_grid_attach_next_to (GTK_GRID (grid), gui_newprod, label, GTK_POS_RIGHT, 1, 1);
   label = gtk_label_new (_("Select products like "));
   gtk_grid_attach_next_to (GTK_GRID (grid), label, NULL, GTK_POS_BOTTOM, 1, 1);
+#ifdef __MINGW32__
+  gui_prodnamelike = gtk_entry_new ();
+#else
   gui_prodnamelike = gtk_search_entry_new ();
+#endif
   gtk_widget_set_tooltip_text (gui_prodnamelike,
 			       "Type some characters and press Enter to filter the product list below. Leave this empty to see all products in the list.");
   g_signal_connect (gui_prodnamelike, "activate", G_CALLBACK (prodnamelike), NULL);

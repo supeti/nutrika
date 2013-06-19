@@ -23,6 +23,7 @@
 
 const gdouble kgperlb = 0.45359237;
 const gdouble gperoz = 28.34952;
+const gchar *inifile;
 gchar *gui_foodgroupcode, *gui_food;
 gint gui_prod, gui_lsg = 3, gui_weight_unit = 1;
 gdouble gui_sch_timespan = 7.0, gui_age = 33.0, gui_weight = 70.0;
@@ -32,9 +33,47 @@ GtkWidget *gui_foodnamelike, *gui_foodgroup, *gui_fooditem, *gui_food_contents, 
   *gui_weight_spin, *gui_plan_days;
 GtkTreeIter gui_food_iter, gui_prod_iter, gui_ing_iter;
 
+void init()
+{
+  GKeyFile *kf;
+  GError *error;
+  const gchar *home;
+  gchar *nutrids;
+
+#ifdef __MINGW32__
+  home = g_getenv ("APPDATA");
+  nutrids = g_strconcat (home, "\\nutrika", NULL);
+#else
+  home = g_getenv ("HOME");
+  nutrids = g_strconcat (home, "/.nutrika", NULL);
+#endif
+  inifile = g_strconcat (nutrids, "/nutrika.ini", NULL);
+  g_free (nutrids);
+  if (g_key_file_load_from_file(kf, inifile, G_KEY_FILE_NONE, &error) == TRUE)
+  {
+    gui_lsg = g_key_file_get_integer (kf, "settings", "LSG", &error);
+    gui_weight_unit = g_key_file_get_integer (kf, "settings", "weightUnit", &error);
+    gui_age = g_key_file_get_double  (kf, "settings", "age", &error);
+    gui_weight = g_key_file_get_double  (kf, "settings", "weight", &error);
+    gui_sch_timespan = g_key_file_get_double  (kf, "settings", "timespan", &error);
+  }
+}
+
 static void
 quit (GtkWidget * widget, gpointer data)
 {
+  GKeyFile *kf;
+  GError *error;
+  gsize length;
+  const char *buf;
+  kf = g_key_file_new ();
+  g_key_file_set_integer (kf, "settings", "LSG", gui_lsg);
+  g_key_file_set_integer (kf, "settings", "weightUnit", gui_weight_unit);
+  g_key_file_set_double (kf, "settings", "age", gui_age);
+  g_key_file_set_double (kf, "settings", "weight", gui_weight);
+  g_key_file_set_double (kf, "settings", "timespan", gui_sch_timespan);
+  buf = g_key_file_to_data(kf, &length, &error);
+  g_file_set_contents (inifile, buf, length, &error);
   gtk_main_quit ();
 }
 
@@ -766,6 +805,7 @@ main (int argc, char *argv[])
 
   gtk_init (&argc, &argv);
   db_open ();
+  init();
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (window), _("Nutrika 1.0"));

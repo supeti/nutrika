@@ -7,8 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-06 14:12+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-06-19 08:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,223 +18,210 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gui.c:243
-#, c-format
-msgid "Schedule from %s to %s"
-msgstr ""
-
-#: src/gui.c:340
+#: ../src/gui.c:336
 msgid "month"
 msgstr ""
 
-#: src/gui.c:342 src/gui.c:744
+#: ../src/gui.c:338 ../src/gui.c:717
 msgid "year"
 msgstr ""
 
-#: src/gui.c:412
+#: ../src/gui.c:416
 msgid "Value"
 msgstr ""
 
-#: src/gui.c:414
+#: ../src/gui.c:418
 msgid "Unit"
 msgstr ""
 
-#: src/gui.c:416
+#: ../src/gui.c:420
 msgid "Description"
 msgstr ""
 
-#: src/gui.c:418
+#: ../src/gui.c:423
 msgid "EAR"
 msgstr ""
 
-#: src/gui.c:420
+#: ../src/gui.c:425
 msgid "RDA"
 msgstr ""
 
-#: src/gui.c:422
+#: ../src/gui.c:427
 msgid "AI"
 msgstr ""
 
-#: src/gui.c:424
+#: ../src/gui.c:429
 msgid "UL"
 msgstr ""
 
-#: src/gui.c:441
-msgid "Group:"
+#: ../src/gui.c:431
+msgid "P/V"
 msgstr ""
 
-#: src/gui.c:453 src/gui.c:512
-msgid "Name like:"
+#: ../src/gui.c:448
+msgid "Select food items like "
 msgstr ""
 
-#: src/gui.c:463
-msgid "Item:"
+#: ../src/gui.c:454
+msgid " in group: "
 msgstr ""
 
-#: src/gui.c:498
-msgid "New meal:"
+#: ../src/gui.c:467
+msgid "100g "
 msgstr ""
 
-#: src/gui.c:503 src/gui.c:662
-msgid "Add meal"
+#: ../src/gui.c:480
+msgid " contains:"
 msgstr ""
 
-#: src/gui.c:517
-msgid "Select meal"
+#: ../src/gui.c:508
+msgid "Add "
 msgstr ""
 
-#: src/gui.c:525
-msgid "Delete meal"
+#: ../src/gui.c:515
+msgid "Select products like "
 msgstr ""
 
-#: src/gui.c:534
-msgid "Name:"
+#: ../src/gui.c:536
+msgid " costs "
 msgstr ""
 
-#: src/gui.c:549
+#: ../src/gui.c:543
+msgid ", and contains:"
+msgstr ""
+
+#: ../src/gui.c:548
+msgid "Delete product"
+msgstr ""
+
+#: ../src/gui.c:560
 msgid "Add food item"
 msgstr ""
 
-#: src/gui.c:552
+#: ../src/gui.c:566
 msgid "Remove food item"
 msgstr ""
 
-#: src/gui.c:569
+#: ../src/gui.c:583
 msgid "Weight [oz]"
 msgstr ""
 
-#: src/gui.c:576
+#: ../src/gui.c:589
 msgid "Weight [g]"
 msgstr ""
 
-#: src/gui.c:580
+#: ../src/gui.c:594
 msgid "NDBNo"
 msgstr ""
 
-#: src/gui.c:582
+#: ../src/gui.c:596
 msgid "Desc"
 msgstr ""
 
-#: src/gui.c:619
-msgid "Schedule timeframe has not been set yet."
+#: ../src/gui.c:630
+msgid "Plan for "
 msgstr ""
 
-#: src/gui.c:631
-msgid "Time:"
+#: ../src/gui.c:637
+msgid " days. "
 msgstr ""
 
-#: src/gui.c:644
-msgid "Schedule timeframe"
+#: ../src/gui.c:645
+msgid "Add product"
 msgstr ""
 
-#: src/gui.c:646
-msgid "Begin"
+#: ../src/gui.c:650
+msgid "Remove product"
 msgstr ""
 
-#: src/gui.c:651
-msgid "End"
-msgstr ""
-
-#: src/gui.c:656
-msgid "Set period"
-msgstr ""
-
-#: src/gui.c:665
-msgid "Remove meal"
-msgstr ""
-
-#: src/gui.c:677
-msgid "Date&Time"
-msgstr ""
-
-#: src/gui.c:691
+#: ../src/gui.c:669
 msgid "Quantity"
 msgstr ""
 
-#: src/gui.c:696 src/gui.c:777
-msgid "Meal"
+#: ../src/gui.c:674 ../src/gui.c:746
+msgid "Product"
 msgstr ""
 
-#: src/gui.c:717
+#: ../src/gui.c:695
 msgid "Infants"
 msgstr ""
 
-#: src/gui.c:717
+#: ../src/gui.c:695
 msgid "Children"
 msgstr ""
 
-#: src/gui.c:717
+#: ../src/gui.c:695
 msgid "Males"
 msgstr ""
 
-#: src/gui.c:717
+#: ../src/gui.c:695
 msgid "Females"
 msgstr ""
 
-#: src/gui.c:717
+#: ../src/gui.c:695
 msgid "Pregnancy"
 msgstr ""
 
-#: src/gui.c:717
+#: ../src/gui.c:695
 msgid "Lactation"
 msgstr ""
 
-#: src/gui.c:718
+#: ../src/gui.c:696
 msgid "Kg"
 msgstr ""
 
-#: src/gui.c:718
+#: ../src/gui.c:696
 msgid "lb"
 msgstr ""
 
-#: src/gui.c:724
+#: ../src/gui.c:701
 msgid "Life Stage Group:"
 msgstr ""
 
-#: src/gui.c:737
+#: ../src/gui.c:710
 msgid "Age:"
 msgstr ""
 
-#: src/gui.c:748
+#: ../src/gui.c:720
 msgid "Weight:"
 msgstr ""
 
-#: src/gui.c:776
+#: ../src/gui.c:745
 msgid "Food"
 msgstr ""
 
-#: src/gui.c:778
-msgid "Schedule"
+#: ../src/gui.c:747
+msgid "Plan"
 msgstr ""
 
-#: src/gui.c:779
+#: ../src/gui.c:748
 msgid "Eater"
 msgstr ""
 
-#: src/gui.c:794
-msgid "Nutrika 0.2.1"
+#: ../src/gui.c:763
+msgid "Nutrika 1.0"
 msgstr ""
 
-#: src/database.c:190
+#: ../src/database.c:193
 msgid "Proximates"
 msgstr ""
 
-#: src/database.c:190
+#: ../src/database.c:193
 msgid "Minerals"
 msgstr ""
 
-#: src/database.c:190
+#: ../src/database.c:193
 msgid "Vitamines"
 msgstr ""
 
-#: src/database.c:190
+#: ../src/database.c:193
 msgid "Lipids"
 msgstr ""
 
-#: src/database.c:190
+#: ../src/database.c:193
 msgid "Amino acids"
 msgstr ""
 
-#: src/database.c:190
+#: ../src/database.c:193
 msgid "Others"
 msgstr ""

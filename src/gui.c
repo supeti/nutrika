@@ -26,14 +26,22 @@ const gdouble gperoz = 28.34952;
 const gchar *inifile;
 gchar *gui_foodgroupcode, *gui_food;
 gint gui_prod, gui_lsg = 3, gui_weight_unit = 1;
-gdouble gui_sch_timespan = 7.0, gui_age = 33.0, gui_weight = 70.0;
+gdouble gui_sch_plandays = 7.0, gui_age = 33.0, gui_weight = 70.0;
 GtkWidget *gui_foodnamelike, *gui_foodgroup, *gui_fooditem, *gui_food_contents, *gui_prodnamelike,
   *gui_prod_combo, *gui_newprod, *gui_price_entry, *gui_prod_spinner,
   *gui_ingredients, *gui_prod_contents, *gui_plan, *gui_plan_contents, *gui_age_spin, *gui_age_unit,
   *gui_weight_spin, *gui_plan_days;
 GtkTreeIter gui_food_iter, gui_prod_iter, gui_ing_iter;
 
-void init()
+#define KEY_SETTINGS "settings"
+#define KEY_WEIGHTUNIT "weightunit"
+#define KEY_LSG "LSG"
+#define KEY_AGE "age"
+#define KEY_WEIGHT "weight"
+#define KEY_PLANDAYS "plandays"
+
+void
+init ()
 {
   GKeyFile *kf;
   GError *error;
@@ -49,14 +57,15 @@ void init()
 #endif
   inifile = g_strconcat (nutrids, "/nutrika.ini", NULL);
   g_free (nutrids);
-  if (g_key_file_load_from_file(kf, inifile, G_KEY_FILE_NONE, &error) == TRUE)
-  {
-    gui_lsg = g_key_file_get_integer (kf, "settings", "LSG", &error);
-    gui_weight_unit = g_key_file_get_integer (kf, "settings", "weightUnit", &error);
-    gui_age = g_key_file_get_double  (kf, "settings", "age", &error);
-    gui_weight = g_key_file_get_double  (kf, "settings", "weight", &error);
-    gui_sch_timespan = g_key_file_get_double  (kf, "settings", "timespan", &error);
-  }
+  kf = g_key_file_new ();
+  if (g_key_file_load_from_file (kf, inifile, G_KEY_FILE_NONE, &error) == TRUE)
+    {
+      gui_lsg = g_key_file_get_integer (kf, KEY_SETTINGS, KEY_LSG, &error);
+      gui_weight_unit = g_key_file_get_integer (kf, KEY_SETTINGS, KEY_WEIGHTUNIT, &error);
+      gui_age = g_key_file_get_double (kf, KEY_SETTINGS, KEY_AGE, &error);
+      gui_weight = g_key_file_get_double (kf, KEY_SETTINGS, KEY_WEIGHT, &error);
+      gui_sch_plandays = g_key_file_get_double (kf, KEY_SETTINGS, KEY_PLANDAYS, &error);
+    }
 }
 
 static void
@@ -67,12 +76,13 @@ quit (GtkWidget * widget, gpointer data)
   gsize length;
   const char *buf;
   kf = g_key_file_new ();
-  g_key_file_set_integer (kf, "settings", "LSG", gui_lsg);
-  g_key_file_set_integer (kf, "settings", "weightUnit", gui_weight_unit);
-  g_key_file_set_double (kf, "settings", "age", gui_age);
-  g_key_file_set_double (kf, "settings", "weight", gui_weight);
-  g_key_file_set_double (kf, "settings", "timespan", gui_sch_timespan);
-  buf = g_key_file_to_data(kf, &length, &error);
+  g_key_file_set_integer (kf, KEY_SETTINGS, KEY_LSG, gui_lsg);
+  g_key_file_set_integer (kf, KEY_SETTINGS, KEY_WEIGHTUNIT, gui_weight_unit);
+  g_key_file_set_double (kf, KEY_SETTINGS, KEY_AGE, gui_age);
+  g_key_file_set_double (kf, KEY_SETTINGS, KEY_WEIGHT, gui_weight);
+  g_key_file_set_double (kf, KEY_SETTINGS, KEY_PLANDAYS, gui_sch_plandays);
+  buf = g_key_file_to_data (kf, &length, &error);
+  error = NULL;
   g_file_set_contents (inifile, buf, length, &error);
   gtk_main_quit ();
 }
@@ -101,7 +111,8 @@ update_combo_model (GtkComboBox * c, GtkTreeModel * tm)
     return FALSE;
 }
 
-void update_food()
+void
+update_food ()
 {
   if (!update_combo_model
       (GTK_COMBO_BOX (gui_fooditem),
@@ -112,7 +123,7 @@ void update_food()
 void
 foodnamelike (GtkEntry * entry, gpointer user_data)
 {
-  update_food(NULL, NULL);
+  update_food (NULL, NULL);
 }
 
 void
@@ -123,7 +134,7 @@ foodgroup_changed (GtkComboBox * combo, gpointer user_data)
   g_free (gui_foodgroupcode);
   gtk_combo_box_get_active_iter (combo, &iter);
   gtk_tree_model_get (gtk_combo_box_get_model (combo), &iter, FG_CODE, &gui_foodgroupcode, -1);
-  update_food(NULL, NULL);
+  update_food (NULL, NULL);
 }
 
 void
@@ -206,7 +217,7 @@ product_price_changed (GtkEntry * entry, gpointer user_data)
   double price;
   gint id, it;
 
-  price = g_ascii_strtod(gtk_entry_get_text (entry), NULL);
+  price = g_ascii_strtod (gtk_entry_get_text (entry), NULL);
   db_update_product (gui_prod, price);
   combo = GTK_COMBO_BOX (gui_prod_combo);
   gtk_combo_box_get_active_iter (combo, &iter);
@@ -215,7 +226,7 @@ product_price_changed (GtkEntry * entry, gpointer user_data)
   update_tree_view_model (GTK_TREE_VIEW (gui_prod_contents),
 			  GTK_TREE_MODEL (db_product_content (gui_prod, gui_lsg, gui_age, gui_weight)));
   update_tree_view_model (GTK_TREE_VIEW (gui_plan_contents),
-			  GTK_TREE_MODEL (db_plan_content (gui_lsg, gui_age, gui_weight, gui_sch_timespan)));
+			  GTK_TREE_MODEL (db_plan_content (gui_lsg, gui_age, gui_weight, gui_sch_plandays)));
 }
 
 void
@@ -227,7 +238,7 @@ product_changed (GtkComboBox * combo, gpointer user_data)
 
   gtk_combo_box_get_active_iter (combo, &iter);
   gtk_tree_model_get (gtk_combo_box_get_model (combo), &iter, PRODUCT_ID, &gui_prod, PRODUCT_PRICE, &price, -1);
-  gtk_entry_set_text (GTK_ENTRY (gui_price_entry), g_ascii_dtostr(qg,10,price));
+  gtk_entry_set_text (GTK_ENTRY (gui_price_entry), g_ascii_dtostr (qg, 10, price));
   update_tree_view_model (GTK_TREE_VIEW (gui_ingredients), GTK_TREE_MODEL (db_ingredients (gui_prod)));
   update_tree_view_model (GTK_TREE_VIEW (gui_prod_contents),
 			  GTK_TREE_MODEL (db_product_content (gui_prod, gui_lsg, gui_age, gui_weight)));
@@ -239,10 +250,11 @@ add_food_item (GtkButton * widget, gpointer user_data)
   gchar *desc;
   GtkListStore *ls;
   GtkTreeIter iter;
-    
+
   db_insert_ingredient (gui_prod, gui_food, "100");
-  gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX(gui_fooditem)), &gui_food_iter, FOOD_LONG_DESC, &desc, -1);
-  ls = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW (gui_ingredients)));
+  gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (gui_fooditem)), &gui_food_iter, FOOD_LONG_DESC, &desc,
+		      -1);
+  ls = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (gui_ingredients)));
   gtk_list_store_append (ls, &iter);
   gtk_list_store_set (ls, &iter, ING_NDBNO, gui_food, ING_DESC, desc, ING_AMOUNT, "100", ING_AMOUNT_OZ, "3.527", -1);
   g_free (desc);
@@ -265,7 +277,7 @@ remove_food_item (GtkButton * widget, gpointer user_data)
       gtk_tree_model_get (tm, &iter, ING_NDBNO, &ndbno, -1);
       db_delete_ingredient (gui_prod, ndbno);
     }
-  gtk_list_store_remove(GTK_LIST_STORE(tm), &iter);
+  gtk_list_store_remove (GTK_LIST_STORE (tm), &iter);
   update_tree_view_model (GTK_TREE_VIEW (gui_prod_contents),
 			  GTK_TREE_MODEL (db_product_content (gui_prod, gui_lsg, gui_age, gui_weight)));
 }
@@ -283,7 +295,7 @@ ingredient_amount_edited (GtkCellRendererText * renderer, gchar * path, gchar * 
       gtk_tree_model_get (tm, &it, ING_NDBNO, &ndbno, -1);
       db_update_ingredient (gui_prod, ndbno, amount_g);
       g_free (ndbno);
-      gtk_list_store_set (GTK_LIST_STORE(tm), &it, ING_AMOUNT_OZ, amount_oz, ING_AMOUNT, amount_g, -1);
+      gtk_list_store_set (GTK_LIST_STORE (tm), &it, ING_AMOUNT_OZ, amount_oz, ING_AMOUNT, amount_g, -1);
       update_tree_view_model (GTK_TREE_VIEW (gui_prod_contents),
 			      GTK_TREE_MODEL (db_product_content (gui_prod, gui_lsg, gui_age, gui_weight)));
     }
@@ -293,14 +305,16 @@ void
 ingredient_amount_edited_g (GtkCellRendererText * renderer, gchar * path, gchar * new_text, gpointer user_data)
 {
   gchar qg[10], qoz[10];
-  ingredient_amount_edited(renderer, path, g_ascii_dtostr(qoz,10,g_ascii_strtod(new_text, NULL)/28.34952), g_ascii_dtostr(qg,10,g_ascii_strtod(new_text, NULL)));
+  ingredient_amount_edited (renderer, path, g_ascii_dtostr (qoz, 10, g_ascii_strtod (new_text, NULL) / 28.34952),
+			    g_ascii_dtostr (qg, 10, g_ascii_strtod (new_text, NULL)));
 }
 
 void
 ingredient_amount_edited_oz (GtkCellRendererText * renderer, gchar * path, gchar * new_text, gpointer user_data)
 {
   gchar qg[10], qoz[10];
-  ingredient_amount_edited(renderer, path, g_ascii_dtostr(qoz,10,g_ascii_strtod(new_text, NULL)), g_ascii_dtostr(qg,10,g_ascii_strtod(new_text, NULL)*28.34952)); 
+  ingredient_amount_edited (renderer, path, g_ascii_dtostr (qoz, 10, g_ascii_strtod (new_text, NULL)),
+			    g_ascii_dtostr (qg, 10, g_ascii_strtod (new_text, NULL) * 28.34952));
 }
 
 void
@@ -308,7 +322,7 @@ update_plan_contents ()
 {
   update_tree_view_model (GTK_TREE_VIEW (gui_plan), GTK_TREE_MODEL (db_plan ()));
   update_tree_view_model (GTK_TREE_VIEW (gui_plan_contents),
-			  GTK_TREE_MODEL (db_plan_content (gui_lsg, gui_age, gui_weight, gui_sch_timespan)));
+			  GTK_TREE_MODEL (db_plan_content (gui_lsg, gui_age, gui_weight, gui_sch_plandays)));
 }
 
 void
@@ -360,7 +374,7 @@ plan_quantity_edited (GtkCellRendererText * renderer, gchar * path, gchar * new_
   if (TRUE == gtk_tree_model_get_iter_from_string (tm, &it, path))
     {
       gtk_tree_model_get (tm, &it, PLN_PRODUCT_ID, &product_id, -1);
-      db_update_plan (product_id, g_ascii_dtostr(quantity,10,g_ascii_strtod(new_text, NULL)));
+      db_update_plan (product_id, g_ascii_dtostr (quantity, 10, g_ascii_strtod (new_text, NULL)));
       update_plan_contents ();
     }
 }
@@ -397,9 +411,9 @@ lsg_changed (GtkComboBox * combo, gpointer user_data)
 void
 plan_days_changed (GtkSpinButton * spin, gpointer user_data)
 {
-  gui_sch_timespan = gtk_spin_button_get_value (spin);
+  gui_sch_plandays = gtk_spin_button_get_value (spin);
   update_tree_view_model (GTK_TREE_VIEW (gui_plan_contents),
-			  GTK_TREE_MODEL (db_plan_content (gui_lsg, gui_age, gui_weight, gui_sch_timespan)));
+			  GTK_TREE_MODEL (db_plan_content (gui_lsg, gui_age, gui_weight, gui_sch_plandays)));
 }
 
 void
@@ -423,22 +437,29 @@ weight_changed (GtkSpinButton * spin, gpointer user_data)
 }
 
 void
+set_weight_spin ()
+{
+  switch (gui_weight_unit)
+    {
+    case 1:
+      gtk_spin_button_set_range (GTK_SPIN_BUTTON (gui_weight_spin), 0.0, 200.0);
+      gtk_spin_button_set_value (GTK_SPIN_BUTTON (gui_weight_spin), gui_weight);
+      break;
+    case 2:
+      gtk_spin_button_set_range (GTK_SPIN_BUTTON (gui_weight_spin), 0.0, 200.0 / kgperlb);
+      gtk_spin_button_set_value (GTK_SPIN_BUTTON (gui_weight_spin), gui_weight / kgperlb);
+      break;
+    }
+}
+
+void
 weight_unit_changed (GtkComboBox * combo, gpointer user_data)
 {
   gint old_unit = gui_weight_unit;
   gui_weight_unit = gtk_combo_box_get_active (combo) + 1;
+  g_print ("weight_unit_changed\n");
   if (gui_weight_unit != old_unit)
-    switch (gui_weight_unit)
-      {
-      case 1:
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (gui_weight_spin), 0.0, 200.0);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (gui_weight_spin), gui_weight);
-	break;
-      case 2:
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (gui_weight_spin), 0.0, 200.0 / kgperlb);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (gui_weight_spin), gui_weight / kgperlb);
-	break;
-      }
+    set_weight_spin ();
 }
 
 GtkWidget *
@@ -676,7 +697,7 @@ plantab ()
   grid = gtk_grid_new ();
   label = gtk_label_new (_("Plan for "));
   gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1, 1);
-  adj = gtk_adjustment_new (7, 1, 30, 1, 0, 0);
+  adj = gtk_adjustment_new (gui_sch_plandays, 1, 30, 1, 0, 0);
   gui_plan_days = gtk_spin_button_new (GTK_ADJUSTMENT (adj), 1, 0);
   g_signal_connect (gui_plan_days, "value-changed", G_CALLBACK (plan_days_changed), NULL);
   gtk_widget_set_tooltip_text (gui_plan_days, "Set the length (in days) of the diet plan for calculating DRI values.");
@@ -750,7 +771,7 @@ eatertab ()
   combo = gtk_combo_box_text_new ();
   for (i = 0; i != 6; i++)
     gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (combo), NULL, gettext (groups[i]));
-  gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 2);
+  gtk_combo_box_set_active (GTK_COMBO_BOX (combo), gui_lsg - 1);
   gtk_grid_attach_next_to (GTK_GRID (grid), combo, label, GTK_POS_RIGHT, 1, 1);
   g_signal_connect (combo, "changed", G_CALLBACK (lsg_changed), NULL);
 
@@ -768,13 +789,13 @@ eatertab ()
   gtk_grid_attach_next_to (GTK_GRID (grid), label, NULL, GTK_POS_BOTTOM, 1, 1);
   gui_weight_spin = gtk_spin_button_new_with_range (0.0, 200.0, 1.0);
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (gui_weight_spin), 1);
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (gui_weight_spin), gui_weight);
+  set_weight_spin ();
   g_signal_connect (gui_weight_spin, "value-changed", G_CALLBACK (weight_changed), NULL);
   gtk_grid_attach_next_to (GTK_GRID (grid), gui_weight_spin, label, GTK_POS_RIGHT, 1, 1);
   combo = gtk_combo_box_text_new ();
   for (i = 0; i != 2; i++)
     gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (combo), NULL, gettext (weight_units[i]));
-  gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
+  gtk_combo_box_set_active (GTK_COMBO_BOX (combo), gui_weight_unit - 1);
   g_signal_connect (combo, "changed", G_CALLBACK (weight_unit_changed), NULL);
   gtk_grid_attach_next_to (GTK_GRID (grid), combo, gui_weight_spin, GTK_POS_RIGHT, 1, 1);
 
@@ -805,12 +826,11 @@ main (int argc, char *argv[])
 
   gtk_init (&argc, &argv);
   db_open ();
-  init();
+  init ();
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (window), _("Nutrika 1.0"));
   g_signal_connect (window, "delete-event", G_CALLBACK (quit), NULL);
-  g_signal_connect (window, "destroy", G_CALLBACK (quit), NULL);
   gtk_window_set_icon (GTK_WINDOW (window), gdk_pixbuf_new_from_file (NUTRIKA_ICON, &error));
 
   grid = gtk_grid_new ();

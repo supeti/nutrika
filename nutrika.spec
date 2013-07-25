@@ -1,17 +1,20 @@
 Name: nutrika
-Version: 1.0
+Version: 1.0.1
 Release: 1%{dist}
 Summary: Nutrient calculator and analyzer
-Group: Applications/Engineering
+Group: Applications/Engineering and Scientific
 License: GPLv3+
-URL: http://nutrika.sourceforge.net/
-Source: http://sourceforge.net/projects/nutrika/files/%{name}-%{version}.tar.bz2
+URL: https://sites.google.com/site/projectnutrika/home
+Source: %{name}-%{version}.tar.lz
 BuildRequires: gtk3-devel,sqlite-devel,gettext,desktop-file-utils
 
 %description
 Shows detailed nutrition content (per 100g and DRI percentages) of various 
 food items. Values of food items are also summed up for custom made products, 
 and for a plan of a certain period.
+
+%define _source_payload w9.lzdio
+%define _binary_payload w9.lzdio
 
 %prep
 %setup -q
@@ -36,6 +39,8 @@ gzip %{buildroot}/%{_mandir}/man1/nutrika.1
 %{_mandir}/man1/nutrika.1.gz
 
 %changelog
+* Thu Jul 25 2013 Peter Sulyok <sulyokpeti@gmail.com> 1.0.1
+- fixed price storing bug
 * Wed Jun 19 2013 Peter Sulyok <sulyokpeti@gmail.com> 1.0
 - schedule turned into plan, introduced P/V ratio
 * Tue Mar 15 2011 Peter Sulyok <sulyokpeti@gmail.com> 0.2.1-2

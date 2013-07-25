@@ -150,7 +150,6 @@ food_changed (GtkComboBox * combo, gpointer user_data)
 void
 prodnamelike (GtkEntry * entry, gpointer user_data)
 {
-  double price;
   GtkComboBox *combo;
 
   combo = GTK_COMBO_BOX (gui_prod_combo);
@@ -216,8 +215,10 @@ product_price_changed (GtkEntry * entry, gpointer user_data)
   GtkComboBox *combo;
   double price;
   gint id, it;
+  gchar pricestr[10];
 
-  price = g_ascii_strtod (gtk_entry_get_text (entry), NULL);
+  price = round(g_ascii_strtod (gtk_entry_get_text (entry), NULL) * 100.0) / 100.0;
+  gtk_entry_set_text (entry, g_ascii_formatd (pricestr, 10, "%.2f", price));
   db_update_product (gui_prod, price);
   combo = GTK_COMBO_BOX (gui_prod_combo);
   gtk_combo_box_get_active_iter (combo, &iter);
@@ -238,7 +239,7 @@ product_changed (GtkComboBox * combo, gpointer user_data)
 
   gtk_combo_box_get_active_iter (combo, &iter);
   gtk_tree_model_get (gtk_combo_box_get_model (combo), &iter, PRODUCT_ID, &gui_prod, PRODUCT_PRICE, &price, -1);
-  gtk_entry_set_text (GTK_ENTRY (gui_price_entry), g_ascii_dtostr (qg, 10, price));
+  gtk_entry_set_text (GTK_ENTRY (gui_price_entry), g_ascii_formatd (qg, 10, "%.2f", price));
   update_tree_view_model (GTK_TREE_VIEW (gui_ingredients), GTK_TREE_MODEL (db_ingredients (gui_prod)));
   update_tree_view_model (GTK_TREE_VIEW (gui_prod_contents),
 			  GTK_TREE_MODEL (db_product_content (gui_prod, gui_lsg, gui_age, gui_weight)));
@@ -305,16 +306,16 @@ void
 ingredient_amount_edited_g (GtkCellRendererText * renderer, gchar * path, gchar * new_text, gpointer user_data)
 {
   gchar qg[10], qoz[10];
-  ingredient_amount_edited (renderer, path, g_ascii_dtostr (qoz, 10, g_ascii_strtod (new_text, NULL) / 28.34952),
-			    g_ascii_dtostr (qg, 10, g_ascii_strtod (new_text, NULL)));
+  ingredient_amount_edited (renderer, path, g_ascii_formatd (qoz, 10, "%.3f", g_ascii_strtod (new_text, NULL) / 28.34952),
+			    g_ascii_formatd (qg, 10, "%.3f", g_ascii_strtod (new_text, NULL)));
 }
 
 void
 ingredient_amount_edited_oz (GtkCellRendererText * renderer, gchar * path, gchar * new_text, gpointer user_data)
 {
   gchar qg[10], qoz[10];
-  ingredient_amount_edited (renderer, path, g_ascii_dtostr (qoz, 10, g_ascii_strtod (new_text, NULL)),
-			    g_ascii_dtostr (qg, 10, g_ascii_strtod (new_text, NULL) * 28.34952));
+  ingredient_amount_edited (renderer, path, g_ascii_formatd (qoz, 10, "%.3f", g_ascii_strtod (new_text, NULL)),
+			    g_ascii_formatd (qg, 10, "%.3f", g_ascii_strtod (new_text, NULL) * 28.34952));
 }
 
 void
@@ -374,7 +375,7 @@ plan_quantity_edited (GtkCellRendererText * renderer, gchar * path, gchar * new_
   if (TRUE == gtk_tree_model_get_iter_from_string (tm, &it, path))
     {
       gtk_tree_model_get (tm, &it, PLN_PRODUCT_ID, &product_id, -1);
-      db_update_plan (product_id, g_ascii_dtostr (quantity, 10, g_ascii_strtod (new_text, NULL)));
+      db_update_plan (product_id, g_ascii_formatd (quantity, 10, "%.3f", g_ascii_strtod (new_text, NULL)));
       update_plan_contents ();
     }
 }
@@ -829,7 +830,7 @@ main (int argc, char *argv[])
   init ();
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window), _("Nutrika 1.0"));
+  gtk_window_set_title (GTK_WINDOW (window), _("Nutrika 1.0.1"));
   g_signal_connect (window, "delete-event", G_CALLBACK (quit), NULL);
   gtk_window_set_icon (GTK_WINDOW (window), gdk_pixbuf_new_from_file (NUTRIKA_ICON, &error));
 

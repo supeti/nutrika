@@ -104,7 +104,7 @@ db_open ()
 				  "SELECT nutr_data.nutr_no,round(nutr_val,dec),units,nutrdesc,sr_order,Round(nutr_val/ear*100,1)||'%',round(nutr_val/rda*100,1)||'%',round(nutr_val/ai*100,1)||'%',round(nutr_val/ul*100,1)||'%',NULL FROM nutr_data JOIN nutr_def USING(nutr_no) LEFT OUTER JOIN (SELECT nutr_no,lsg,min_age,max_age,ear,rda,ai,ul FROM dri UNION SELECT nutr_no,lsg,min_age,max_age,ear*weight,rda*weight,ai*weight,ul*weight FROM driperkg JOIN (SELECT ? as weight)) AS dri USING (nutr_no) JOIN (SELECT ? AS age, ? AS cur_lsg) WHERE ndb_no=? AND (dri.nutr_no IS NULL OR lsg=cur_lsg AND min_age<=age AND age<max_age) ORDER BY sr_order;",
 				  -1, &db_food_content_ps, &pztail));
   DB_FATAL_X (sqlite3_prepare_v2
-	      (db_con, "SELECT id,name,price FROM products WHERE name like ?;", -1, &db_products_ps, &pztail));
+	      (db_con, "SELECT id,name,Round(price,2) FROM products WHERE name like ?;", -1, &db_products_ps, &pztail));
   DB_FATAL_X (sqlite3_prepare_v2
 	      (db_con, "INSERT INTO products (name,price) VALUES (?, ?);", -1, &db_products_insert_ps, &pztail));
   DB_FATAL_X (sqlite3_prepare_v2
@@ -128,7 +128,7 @@ db_open ()
 	       "SELECT nutr_data.nutr_no,Sum(nutr_val*amount*0.01),units,nutrdesc,sr_order,Round(Sum(nutr_val*amount/ear),1)||'%',Round(Sum(nutr_val*amount/rda),1)||'%',Round(Sum(nutr_val*amount/ai),1)||'%',Round(Sum(nutr_val*amount/ul),1)||'%',coalesce(Round(price*100/Sum(nutr_val*amount/rda),2),Round(price*100/Sum(nutr_val*amount/ai),2)) FROM nutr_data JOIN nutr_def USING(nutr_no) JOIN ingredients USING(ndb_no) JOIN products ON ingredients.product=products.id LEFT OUTER JOIN (SELECT nutr_no,lsg,min_age,max_age,ear,rda,ai,ul FROM dri UNION SELECT nutr_no,lsg,min_age,max_age,ear*weight,rda*weight,ai*weight,ul*weight FROM driperkg AS a JOIN (SELECT ? as weight)) AS dri USING (nutr_no) JOIN (SELECT ? AS age, ? AS cur_lsg) WHERE products.id=? AND (dri.nutr_no IS NULL OR lsg=cur_lsg AND min_age<=age AND age<max_age) GROUP BY nutr_data.nutr_no,units,nutrdesc,sr_order ORDER BY sr_order;",
 	       -1, &db_product_content_ps, &pztail));
   DB_FATAL_X (sqlite3_prepare_v2
-	      (db_con, "SELECT product,name,quantity FROM plan JOIN products ON product=id", -1, &db_plan_ps, &pztail));
+	      (db_con, "SELECT product,name,Round(quantity,3) FROM plan JOIN products ON product=id", -1, &db_plan_ps, &pztail));
   DB_FATAL_X (sqlite3_prepare_v2
 	      (db_con,
 	       "SELECT nutr_data.nutr_no,Round(Sum(nutr_val*amount*0.01*quantity),dec),units,nutrdesc,sr_order,Round(Sum(nutr_val*amount*quantity)/(ear*days),1)||'%',Round(Sum(nutr_val*amount*quantity)/(rda*days),1)||'%',Round(Sum(nutr_val*amount*quantity)/(ai*days),1)||'%',Round(Sum(nutr_val*amount*quantity)/(ul*days),1)||'%',coalesce(Round(Sum(price*quantity*100*(rda*days))/Sum(nutr_val*amount*quantity),2),Round(Sum(price*quantity*100*(ai*days))/Sum(nutr_val*amount*quantity),2)) FROM nutr_data JOIN nutr_def USING(nutr_no) JOIN ingredients USING(ndb_no) JOIN products ON ingredients.product=products.id JOIN plan ON products.id=plan.product LEFT OUTER JOIN (SELECT nutr_no,lsg,min_age,max_age,ear,rda,ai,ul FROM dri UNION SELECT nutr_no,lsg,min_age,max_age,ear*weight,rda*weight,ai*weight,ul*weight FROM driperkg AS a JOIN (SELECT ? as weight)) AS dri USING (nutr_no) JOIN (SELECT ? AS age, ? AS cur_lsg, ? AS days) WHERE (dri.nutr_no IS NULL OR lsg=cur_lsg AND min_age<=age AND age<max_age) GROUP BY nutr_data.nutr_no,units,nutrdesc,sr_order ORDER BY sr_order;",
@@ -280,7 +280,7 @@ db_insert_product (const gchar * name, const double price)
 void
 db_update_product (const gint product, const double price)
 {
-  DB_FATAL_X (sqlite3_bind_int (db_products_update_ps, 1, price));
+  DB_FATAL_X (sqlite3_bind_double (db_products_update_ps, 1, price));
   DB_FATAL_X (sqlite3_bind_int (db_products_update_ps, 2, product));
   sqlite3_step (db_products_update_ps);
   DB_WARN_X (sqlite3_reset (db_products_update_ps));

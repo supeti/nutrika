@@ -1,0 +1,3 @@
+# Attention! #
+
+This project is discontinued. If you are looking for a nutrient calculator and analyzer software, you should try [Nutrika in the Cloud](http://nutrika-supeti.rhcloud.com/), the new online version. If you are interested in a community seeking balanced diets, you should join the [Extreme Cooking Community](https://plus.google.com/u/0/communities/100680827449853706792). In case you want to have fun with dietary research, you may engage in the [Extreme Cooking Contest](http://ecc-supeti.rhcloud.com/).

@@ -1,0 +1,1 @@
+Displays nutrient content of various food items based on USDA data. Calculates nutrient content of combination of food items both absolute values and relative to DRI values and to price.
